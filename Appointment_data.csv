@@ -1,0 +1,6 @@
+"appointmentid","patientid","doctorid","appointmentdate","status"
+1001,1,101,"2024-11-01","Completed"
+1002,2,102,"2024-11-02","Cancelled"
+1003,3,103,"2024-11-03","Completed"
+1004,4,104,"2024-11-04","Scheduled"
+1005,5,105,"2024-11-05","Completed"
