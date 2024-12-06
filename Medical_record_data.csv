@@ -1,0 +1,6 @@
+"recordid","patientid","condition","treatment","doctorid"
+201,1,"Hypertension","Medication",101
+202,2,"Migraine","Therapy",102
+203,3,"Fracture","Surgery",103
+204,4,"Asthma","Inhaler",104
+205,5,"Diabetes","Insulin",105
