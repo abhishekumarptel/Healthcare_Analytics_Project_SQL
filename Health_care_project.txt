@@ -1,0 +1,136 @@
+--Health_care_project--
+create table Medical_record
+(RecordID int primary key,
+ PatientID int,
+ Condition varchar(30),
+ Treatment varchar(30),
+ DoctorID int)
+ insert into Medical_record
+ values
+(201,	1,	'Hypertension',	'Medication',	101),
+(202,	2,	'Migraine',	'Therapy',	102),
+(203,	3,	'Fracture',	'Surgery',	103),
+(204,	4,	'Asthma',	'Inhaler',	104),
+(205,	5,	'Diabetes',	'Insulin',	105)
+
+
+create table Appointment
+(AppointmentID int primary key,
+ PatientID int ,
+ DoctorID int,
+ AppointmentDate date,
+ Status varchar(30))
+ 
+ insert into Appointment
+ values
+(1001,	1,	101,	'01-11-2024',	'Completed'),
+(1002,	2,	102,	'02-11-2024',	'Cancelled'),
+(1003,	3,	103,	'03-11-2024',	'Completed'),
+(1004,	4,	104,	'04-11-2024',	'Scheduled'),
+(1005,	5,	105,	'05-11-2024',	'Completed')
+select * from Medical_record
+
+create table Doctors
+(DoctorID int,
+ Name varchar(30),
+ Specialization varchar(30),
+ ExperienceYears int,
+ City varchar(30))
+ insert into Doctors
+ values
+(101,	'Dr. Green',	'Cardiology',	10,	'New York'),
+(102,	'Dr. White',	'Neurology',	15,	'Los Angeles'),
+(103,	'Dr. Black',	'Orthopedics',	8,	'Chicago'),
+(104,	'Dr. Brown',	'Pediatrics',	12,	'Houston'),
+(105,	'Dr. Blue',	'General Medicine',	20,	'Phoenix')
+
+select * from Doctors
+
+create table PateintID
+(PatientID int,
+ Name varchar(30),
+ Age int ,
+ Gender varchar(30),
+ City varchar(30))
+ insert into PateintID
+ values
+(1,	'John Doe',	45,	'Male',	'New York'),
+(2,	'Jane Smith',	34,	'Female',	'Los Angeles'),
+(3,	'Emily Davis',	29,	'Female',	'Chicago'),
+(4,	'Michael Brown',	52,	'Male',	'Houston'),
+(5,	'Sarah Wilson',	40,	'Female',	'Phoenix')
+
+--1.Retrieve all details of patients who are older than 40 years--
+select * from  PateintID
+where age>40
+
+--2.List the names and specializations of all doctors in Chicago--
+select name,specialization,city from doctors
+where city='Chicago'
+
+--3.Find all completed appointments--
+select * from Appointment
+where status='Completed'
+
+--4.Count the number of appointments scheduled for each doctor--
+select count(appointmentid),doctorid from Appointment
+group by doctorid
+order by doctorid
+
+--5.List the names of patients and their corresponding conditions--
+select name,condition from  PateintID
+join Medical_record
+on PateintID.PatientID=Medical_record.PatientID
+
+--6.Retrieve the names of doctors with more than 10 years of experience--
+select name,experienceyears from Doctors
+where experienceyears>10
+
+--7.Find the total number of appointments in the system.--
+select count(Appointmentid) from Appointment
+
+--8.Show the names of patients and the treatment they received--
+select name,treatment from  PateintID
+join Medical_record
+on PateintID.patientid=Medical_record.patientid
+
+--9.Retrieve all appointment details for patients from Houston.--
+select AppointmentID,Appointment.patientid,doctorid,appointmentdate,status from Appointment
+join pateintid
+on Appointment.patientid=pateintid.patientid
+where city='Houston'
+
+--10.Find the doctor who treated "Hypertension"--
+select name from Medical_record
+join Doctors
+on Medical_record.doctorid=doctors.doctorid
+where condition='Hypertension'
+
+--11.List the patients and doctors involved in completed appointments.--
+select doctors.name,PateintID.name from Doctors
+join Appointment
+on doctors.doctorid=Appointment.doctorid
+join PateintID
+on Appointment.PatientID=PateintID.PatientID
+where status= 'Completed'
+--12.Retrieve the details of doctors who have treated more than one condition--
+select name,Medical_record.doctorid from Doctors
+join Medical_record
+on doctors.doctorid=Medical_record.doctorid
+group by Medical_record.doctorid,name
+having count(treatment)>1
+
+--13.Show all unique cities from the Patients table--
+select distinct(city) from  PateintID
+
+--14.Count how many female patients have appointments.-
+select count(gender) from Appointment
+join pateintid
+on Appointment.patientid=pateintid.patientid
+where gender='Female' and Appointment.patientid=pateintid.patientid
+
+--15.Retrieve the name and specialization of the doctor who scheduled the appointment on "2024-11-04."
+select name,specialization from Doctors
+join Appointment
+on doctors.doctorid=Appointment.doctorid
+where appointmentdate='2024-11-04'
